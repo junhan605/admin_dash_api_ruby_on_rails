@@ -1,0 +1,72 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+  #logo {
+    background-image: asset-url("logo@2x.png");
+  }
+  #flag {
+    background-image: asset-url("canada@2x.png");
+  }
+}
+@media all and (max-width: 640px) {
+  html {
+    -webkit-text-size-adjust: none;
+  }
+  header,
+  article,
+  footer {
+    width: 320px;
+  }
+  header {
+    margin-bottom: 0;
+  }
+  #logo {
+    float: none!important;
+  }
+  nav ul,
+  #button {
+    display: none;
+  }
+  h1 {
+    font-size: 190%;
+  }
+  section {
+    height: 1445px;
+    @include clearfix;
+    article {
+      height: 1425px;
+      .gridster {
+        ul {
+          .gs_w {
+            position: relative;
+            width: 298px;
+            left: 0px;
+            top: 0px;
+            margin-left: 10px;
+            cursor: default;
+          }
+        }
+      }
+    }
+  }
+  footer {
+    padding: 1.5em 0 1.25em 0;
+    a {
+      display: inline-block;
+    }
+    #flag {
+      display: none;
+    }
+  }
+}
+@media only screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5) {
+  #logo {
+    background-image: asset-url("logo@2x.png");
+  }
+}

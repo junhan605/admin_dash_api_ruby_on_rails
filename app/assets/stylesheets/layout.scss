@@ -1,0 +1,39 @@
+@import "base";
+@import "media";
+@import "mobile";
+
+body {
+  background: $bg-color;
+  color: $base-color;
+  text-shadow: white 0px 1px 0;
+  font-size: $base-size;
+  font-family: $base-font;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing:    antialiased;
+  -ms-font-smoothing:     antialiased;
+  -o-font-smoothing:      antialiased;
+  font-smoothing:         antialiased;
+}
+section {
+  min-height: 628px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 auto;
+  background: $bg-color;
+  article {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 945px;
+    margin-bottom: 20px;
+    .gridster li {
+      background: $bg-color;
+      @include border-radius(4px);
+      &:hover {
+        cursor: move;
+      }
+    }
+  }
+}

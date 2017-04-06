@@ -1,0 +1,11 @@
+//= require jquery
+//= require jquery_ujs
+//= require turbolinks
+//= require chart
+//= require dropdown
+//= require jquery.collision
+//= require jquery.coords
+//= require jquery.draggable
+//= require jquery.gridster
+//= require utils
+//= require_tree .

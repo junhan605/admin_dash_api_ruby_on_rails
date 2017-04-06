@@ -1,0 +1,145 @@
+<article>
+  <div class="gridster">
+    <ul>
+      <!-- Row 1 -->
+      <li class="profile" data-row="1" data-col="1" data-sizex="3" data-sizey="1">
+        <img id="avatar" width="85" height="85" src="../assets/avatar.png"></img>
+          <aside>
+            <span id="name"><a href="http://hopkins.io"><%= @user.name %></a></span>
+            <span id="city"><%= @user.location %></span>
+            <span id="age"><%= @user.age %> years old</span>
+            <span id="gender"><%= @user.gender.titleize %></span>
+            <img id="height" width="51" height="90" src="../assets/height@2x.png"></img>
+            <div id="measurement"><%= @user.height %></div>
+          </aside>
+      </li>
+      <li class="sleep" data-row="1" data-col="5" data-sizex="2" data-sizey="2">
+        <div id="quality" class="css-animation <%= if (@user.current_sleep.quality == 100) then 'three' end %>"><%= @user.current_sleep.quality %></div>
+        <canvas id="sleep-canvas" height="225" width="225" data-light="<%= @user.current_sleep.light_sleep %>" data-deep="<%= @user.current_sleep.deep_sleep %>"></canvas>
+        <p id="deep">Deep Sleep: <span><%= @user.current_sleep.deep_sleep.nil? ? 'nil' : Time.at(@user.current_sleep.deep_sleep).gmtime.strftime("%l:%M") %></span></p>
+        <p id="light">Light Sleep: <span><%= @user.current_sleep.light_sleep.nil? ? 'nil' : Time.at(@user.current_sleep.light_sleep).gmtime.strftime("%l:%M") %></span></p>
+      </li>
+      <!-- End of Row 1 -->
+
+      <!-- Row 2 -->
+      <li class="steps" data-row="2" data-col="1" data-sizex="4" data-sizey="2">
+        <span id="updated"><%= @user.steps.last.updated_at.in_time_zone("Eastern Time (US & Canada)").strftime("%a %k:%S") %> EST</span>
+        <div id="quantity" class="css-animation"><%= if @user.steps.last.nil? then '0' else number_with_delimiter(@user.steps.last.quantity) end %></div>
+        <canvas id="steps-canvas" height="225" width="569"></canvas>
+      </li>
+      <li class="mood" data-row="1" data-col="6" data-sizex="1" data-sizey="1">
+        <p id="title"><%= @user.current_mood.title %></p>
+        <canvas id="mood-canvas" height="105" width="105"></canvas>
+      </li>
+      <li class="pulse" data-row="2" data-col="5" data-sizex="2" data-sizey="1">
+        <i id="heart" data-icon="&hearts;" data-aria="hidden"></i>
+        <div id="rate" class="css-animation"><%= @user.current_pulse.rate %></div>
+        <span id="updated"><%= @user.current_pulse.updated_at.in_time_zone("Eastern Time (US & Canada)").strftime("%a %k:%S") %> EST</span>
+      </li>
+      <!-- End of Row 2 -->
+
+      <!-- Row 3 -->
+      <li class="calories" data-row="3" data-col="1" data-sizex="4" data-sizey="2">
+        <span id="updated"><%= @user.calories.last.updated_at.in_time_zone("Eastern Time (US & Canada)").strftime("%a %k:%S") %> EST</span>
+        <div id="quantity" class="css-animation"><%= if @user.calories.last.nil? then '0' else number_with_delimiter(@user.calories.last.quantity) end %></div>
+        <canvas id="calories-canvas" height="225" width="569"></canvas>
+      </li>
+      <li class="weight" data-row="3" data-col="5" data-sizex="2" data-sizey="2">
+        <span id="updated"><%= @user.weights.last.updated_at.in_time_zone("Eastern Time (US & Canada)").strftime("%a") %></br><%= @user.weights.last.updated_at.in_time_zone("Eastern Time (US & Canada)").strftime("%k:%S") %> EST</span>
+        <div id="quantity" class="css-animation"><%= @user.weights.last.quantity %></div>
+        <div id="marker" class="css-animation">
+          <i id="cross" data-icon="&#10060;" data-aria="hidden"></i>
+        </div>
+        <canvas id="weight-canvas" height="220" width="267"></canvas>
+      </li>
+      <!-- End of Row 3 -->
+    </ul>
+  </div>
+</article>
+
+<script>
+  $(function() {
+
+    $(".gridster ul").gridster({
+        widget_margins: [10, 10],
+        widget_base_dimensions: [137, 137],
+        avoid_overlapped_widgets: true
+    });
+
+    var doughnutData = [
+      {
+        value: $('canvas').data('light'),
+        color:"#949FB1"
+      },
+      {
+        value : $('canvas').data('deep'),
+        color : "#46BFBD"
+      }
+    ];
+    var myDoughnut = new Chart(document.getElementById("sleep-canvas").getContext("2d")).Doughnut(doughnutData, { percentageInnerCutout : 80 });
+
+    var barChartData1 = {
+      labels : [""],
+      datasets : [
+        {
+          fillColor : "<%= if @user.current_mood.title == 'No Data' then '#f7464a' else 'rgba(224,228,204,0.5)' end %>",
+          strokeColor : "rgba(224,228,204,1)",
+          data : ["<%= mood_adjustment(@user.current_mood) %>"]
+        }
+      ]
+    };
+    var myLine1 = new Chart(document.getElementById("mood-canvas").getContext("2d")).Bar(barChartData1, { animationSteps : 250, barShowStroke : true, scaleLineColor : "rgba(0,0,0,0)", scaleGridLineColor : "rgba(0,0,0,0)", scaleShowLabels : false, scaleShowGridLines : false, scaleOverride : true, scaleSteps : 8, scaleStepWidth : 1, scaleStartValue : 0 });
+
+    var lineChartData1 = {
+      labels : ["  ","","","","","","  "],
+      datasets : [
+        {
+          fillColor : "rgba(151,187,205,0)",
+          strokeColor : "#4d5360",
+          pointColor : "#fff",
+          pointStrokeColor : "#4d5360",
+          data : [<%= @user.steps[-7].quantity %>, <%= @user.steps[-6].quantity %>, <%= @user.steps[-5].quantity %>, <%= @user.steps[-4].quantity %>, <%= @user.steps[-3].quantity %>, <%= @user.steps[-2].quantity %>, <%= @user.steps[-1].quantity || 0 %>]
+        }
+      ]
+    };
+    var myLine2 = new Chart(document.getElementById("steps-canvas").getContext("2d")).Line(lineChartData1, { scaleShowLabels : false, scaleShowGridLines : false, scaleLineColor : "rgba(0,0,0,0)", scaleFontFamily : "'proxima_novasemibold'", scaleFontSize : 16, scaleFontColor : "#444" });
+
+    var lineChartData2 = {
+      labels : ["  ","","","","","","  "],
+      datasets : [
+        {
+          fillColor : "rgba(151,187,205,0)",
+          strokeColor : "#4d5360",
+          pointColor : "#fff",
+          pointStrokeColor : "#4d5360",
+          data : [<%= @user.calories[-7].quantity %>, <%= @user.calories[-6].quantity %>, <%= @user.calories[-5].quantity %>, <%= @user.calories[-4].quantity %>, <%= @user.calories[-3].quantity %>, <%= @user.calories[-2].quantity %>, <%= @user.calories[-1].quantity || 0 %>]
+        }
+      ]
+    };
+    var myLine3 = new Chart(document.getElementById("calories-canvas").getContext("2d")).Line(lineChartData2, { scaleShowLabels : false, scaleShowGridLines : false, scaleLineColor : "rgba(0,0,0,0)", scaleFontFamily : "'proxima_novasemibold'", scaleFontSize : 16, scaleFontColor : "#444" });
+
+    var barChartData2 = {
+      labels : [" ","","","","","",""],
+      datasets : [
+        {
+          fillColor : "rgba(125,79,109,0.5)",
+          strokeColor : "rgba(125,79,109,1)",
+          data : [<%= @user.weights[-7].quantity %>, <%= @user.weights[-6].quantity %>, <%= @user.weights[-5].quantity %>, <%= @user.weights[-4].quantity %>, <%= @user.weights[-3].quantity %>, <%= @user.weights[-2].quantity %>, <%= @user.weights[-1].quantity %>]
+        }
+      ]
+    }
+    var myLine4 = new Chart(document.getElementById("weight-canvas").getContext("2d")).Bar(barChartData2, { scaleLineColor : "rgba(0,0,0,0)", scaleGridLineColor : "rgba(0,0,0,0)", scaleShowLabels : false, scaleShowGridLines : false, scaleOverride : true, scaleSteps : 15, scaleStepWidth : 1, scaleStartValue : 165 });
+
+    $(window).resize(function() {
+      var width = $(window).width();
+      if (width < 640) {
+        $(".gridster ul").gridster().data('gridster').disable();
+        $(".gridster ul").css('height', '100%');
+      }
+      else {
+        $(".gridster ul").gridster().data('gridster').enable();
+        $(".gridster ul").css('height', '785px');
+      }
+    });
+  });
+</script>

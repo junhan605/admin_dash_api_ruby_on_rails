@@ -1,0 +1,253 @@
+@import "layout";
+
+.profile {
+  #avatar {
+    @include border-radius(85px);
+    padding: 4px;
+    margin: 21px;
+  }
+  aside {
+    position: absolute;
+    top: 25px;
+    left: 135px;
+    width: 65%;
+    span {
+      display: block;
+      line-height: 1.43em;
+      &#name {
+        font-family: $semi-bold-font;
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+      }
+    }
+    #height {
+      position: absolute;
+      top: 0px;
+      right: 20px;
+    }
+    #measurement {
+      font-family: $semi-bold-font;
+      position: absolute;
+      top: 39px;
+      right: 5px;
+      color: #444;
+    }
+  }
+}
+
+.sleep {
+  text-align: center;
+  #quality {
+    position: absolute;
+    top: 34%;
+    right: 40%;
+    font-family: $semi-bold-font;
+    font-size: 3em;
+    color: $teal;
+    @include fadeIn(2s, 2s, forwards);
+    &.three {
+      right: 37%;
+      &:after {
+        right: 13%;
+      }
+    }
+    &:after {
+      content: "quality";
+      position: absolute;
+      bottom: -20%;
+      right: 2%;
+      font-size: 0.28em;
+      text-transform: uppercase;
+    }
+  }
+  #sleep-canvas {
+    margin: 16px;
+  }
+  p {
+    font-size: 1em;
+    display: inline-block;
+    span {
+      font-family: $semi-bold-font;
+    }
+    &#deep {
+      float: left;
+      margin-left: 20px;
+      span {
+        color: $teal;
+      }
+    }
+    &#light {
+      float: right;
+      margin-right: 20px;
+      span {
+        color: $light-gray;
+      }
+    }
+  }
+}
+
+.mood {
+  #mood-canvas {
+    position: absolute;
+    left: 17px;
+    bottom: 0px;
+  }
+  #title {
+    font-family: $semi-bold-font;
+    text-align: center;
+    margin: 21px 0;
+  }
+}
+
+.steps {
+  #quantity {
+    position: relative;
+    float: right;
+    text-align: right;
+    margin: 16px 17px 0 0;
+    min-width: 125px;
+    font-family: $semi-bold-font;
+    font-size: 3em;
+    color: $dark-gray;
+    @include fadeIn(1s, 1s, forwards);
+    &:after {
+      content: "Steps";
+      position: absolute;
+      bottom: -20%;
+      right: 0px;
+      font-size: 0.28em;
+      text-transform: uppercase;
+    }
+  }
+  #updated {
+    float: left;
+    margin: 22px 0 0 21px;
+    font-family: $semi-bold-font;
+  }
+  #steps-canvas {
+    position: absolute;
+    left: 21px;
+    bottom: 0px;
+  }
+}
+
+.calories {
+  #quantity {
+    position: relative;
+    float: right;
+    text-align: right;
+    margin: 16px 17px 0 0;
+    min-width: 125px;
+    font-family: $semi-bold-font;
+    font-size: 3em;
+    color: $dark-gray;
+    @include fadeIn(1s, 1s, forwards);
+    &:after {
+      content: "Calories Burned";
+      position: absolute;
+      bottom: -20%;
+      right: 0px;
+      font-size: 0.28em;
+      text-transform: uppercase;
+    }
+  }
+  #updated {
+    float: left;
+    margin: 22px 0 0 21px;
+    font-family: $semi-bold-font;
+  }
+  #calories-canvas {
+    position: absolute;
+    left: 21px;
+    bottom: 0px;
+  }
+}
+
+.weight {
+  #quantity {
+    position: relative;
+    float: right;
+    text-align: right;
+    margin: 16px 17px 0 0;
+    min-width: 30px;
+    font-family: $semi-bold-font;
+    font-size: 3em;
+    color: $purple;
+    @include fadeIn(1s, 1s, forwards);
+    &:after {
+      content: "Lbs";
+      position: absolute;
+      bottom: -20%;
+      right: 0px;
+      font-size: 0.28em;
+      text-transform: uppercase;
+    }
+  }
+  #marker {
+    width: 250px;
+    height: 1px;
+    border-top: 2px solid rgba(68,68,68,0.1);
+    position: absolute;
+    bottom: 91px;
+    left: 22px;
+    @include fadeIn(2s, 2s, forwards);
+  }
+  #cross {
+    color: $purple;
+    position: absolute;
+    font-family: $semi-bold-font;
+    left: 6px;
+    bottom: -9px;
+    @include fadeIn(4s, 2s, forwards);
+  }
+  #updated {
+    line-height: 1.43em;
+    float: left;
+    margin: 20px 0 0 21px;
+    font-family: $semi-bold-font;
+  }
+  #weight-canvas {
+    position: absolute;
+    bottom: 0px;
+    left: 16px;
+  }
+}
+
+.pulse {
+  #heart {
+    font-size: 5.7em;
+    color: $red;
+    @include pulse(1s, linear, infinite);
+    position: absolute;
+    left: 8px;
+    bottom: -70px;
+  }
+  #rate {
+    position: relative;
+    float: right;
+    text-align: right;
+    margin: 16px 17px 0 0;
+    min-width: 30px;
+    font-family: $semi-bold-font;
+    font-size: 3em;
+    color: $red;
+    @include fadeIn(1s, 1s, forwards);
+    &:after {
+      content: "Bpm";
+      position: absolute;
+      bottom: -20%;
+      right: 0px;
+      font-size: 0.28em;
+      text-transform: uppercase;
+    }
+  }
+  #updated {
+    line-height: 1.43em;
+    position: absolute;
+    right: 17px;
+    bottom: 14px;
+    font-family: $semi-bold-font;
+  }
+}
